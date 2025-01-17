@@ -3,33 +3,27 @@ const caesarCipher = function (str, key = 3) {
   const output = chars
     .map((c) => {
       const code = c.charCodeAt(0);
-      let min = 0;
-      let max = 0;
+      cipherCode = code;
 
       // lowercase letters
       if (code >= 97 && code < 123) {
-        min = 97;
-        max = 123;
+        cipherCode = wrapValue(code + key, 97, 123);
       }
       // uppercase letters
       else if (code >= 65 && code < 91) {
-        min = 65;
-        max = 91;
+        cipherCode = wrapValue(code + key, 65, 91);
       }
-      // if not a letter return the original character
-      else {
-        return c;
-      }
-
-      const sum = code + key;
-      const length = max - min;
-      const cipherCode = sum > min ? ((sum - min) % length) + min : sum + length;
 
       return String.fromCharCode(cipherCode);
     })
     .join('');
 
   return output;
+};
+
+const wrapValue = function (value, min, max) {
+  const length = max - min;
+  return value > min ? ((value - min) % length) + min : value + length;
 };
 
 module.exports = caesarCipher;
